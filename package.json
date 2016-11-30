@@ -9,7 +9,8 @@
   ],
   "dependencies": {
     "ckeditor5-autoformat": "ckeditor/ckeditor5-autoformat#ci/debug",
-    "ckeditor5-basic-styles": "ckeditor/ckeditor5-basic-styles#ci/debug"
+    "ckeditor5-basic-styles": "ckeditor/ckeditor5-basic-styles#ci/debug",
+    "ckeditor5-enter": "ckeditor/ckeditor5-enter"
   },
   "devDependencies": {
     "@ckeditor/ckeditor5-dev-bundler-rollup": "^4.0.0",
