@@ -24,7 +24,7 @@ function fixImport( wholeImport, pathStart, fileDepth ) {
 	const packageShortName = pathStart.split( '/' ).slice( -1 )[0];
 	const importDepth = countOcurrences( pathStart, '../' );
 
-	if ( importDepth < fileDepth ) {
+	if ( importDepth <= fileDepth ) {
 		return wholeImport;
 	}
 
