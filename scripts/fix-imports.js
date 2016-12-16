@@ -1,20 +1,13 @@
 #!/usr/bin/env node
 
-'use strict';
-
 const fs = require( 'fs' );
 const path = require( 'path' );
 const glob = require( 'glob' );
 
 const srcDir = path.join( process.cwd(), 'src' );
 const srcPath = path.join( srcDir , '**', '*.js' );
+
 for ( const filePath of glob.sync( srcPath ) ) {
-	if ( filePath.includes( '-fixed' ) ) {
-		fs.unlinkSync( filePath );
-
-		continue;
-	}
-
 	const fileDepth = countOcurrences( filePath.replace( srcDir + '/', '' ), path.sep );
 	const fix = ( wholeImport, pathStart ) => fixImport( wholeImport, pathStart, fileDepth );
 
@@ -23,8 +16,7 @@ for ( const filePath of glob.sync( srcPath ) ) {
 		.replace( /import\s*[\w]+\s*from\s*'((\.\.\/)+[\w-]+)\/[^']+'/g, fix )
 		.replace( /import\s*\*\s*as\s*[\w]+\s*from\s*'((\.\.\/)+[\w-]+)\/[^']+'/g, fix );
 
-	const newFileName = filePath.split( '.' ).slice( 0, -1 ).join( '.' );
-	fs.writeFileSync( newFileName + '-fixed.js', fileContent , 'utf-8' );
+	fs.writeFileSync( filePath, fileContent , 'utf-8' );
 }
 
 function fixImport( wholeImport, pathStart, fileDepth ) {
