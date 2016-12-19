@@ -7,16 +7,32 @@
 
 'use strict';
 
-function CKEditorWebpackPlugin() {}
+function CKEditorWebpackPlugin( options ) {
+	this.options = options || {};
+	this.useMainRepoModulesFirstly = !!options.useMainRepoModulesFirstly;
+}
+
+const path = require( 'path' );
+const fs = require( 'fs' );
 
 CKEditorWebpackPlugin.prototype.apply = function( compiler ) {
-	compiler.plugin( 'emit', function( compilation, cb ) {
-		const fs = require( 'fs' );
+	if ( this.useMainRepoModulesFirstly ) {
+		compiler.resolvers.normal.plugin( 'resolve', this.maybeFixPath.bind( this ) );
+	}
+};
 
-		fs.writeFileSync( 'webpack-plugin-output.json', compilation );
+CKEditorWebpackPlugin.prototype.maybeFixPath = function( obj, done ) {
+	if ( obj.path.includes( 'node_modules' ) && obj.path.includes( 'ckeditor5-' ) ) {
+		const fixedPath = path.join( process.cwd(), 'node_modules' );
+		const pathToFile = path.join( fixedPath, obj.request );
 
-		cb();
-	} );
+		try {
+			// Arguments of next calls of maybeFixPath should change so this be checked sync way.
+			fs.statSync( pathToFile );
+			obj.path = fixedPath;
+		} catch ( err ) {}
+	}
+	done();
 };
 
 module.exports = CKEditorWebpackPlugin;

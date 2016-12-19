@@ -9,38 +9,27 @@ const path = require( 'path' );
 const CKEditorWebpackPlugin = require( './ckeditor-webpack-plugin' );
 
 module.exports = {
+	context: __dirname,
+	target: 'web',
+
 	entry: './webpack-entry-point',
 
 	output: {
-		path: __dirname + '/build',
+		path: path.resolve( __dirname, 'build' ),
 		filename: 'webpack-build.js',
 	},
 
 	devtool: 'source-map',
 
 	resolve: {
-		extensions: [ '', '.webpack.js', '.web.js', '.js' ],
-		modulesDirectories: [
-			'node_modules'
-		],
-		root: [ path.join( __dirname, 'node_modules' ), __dirname ]
+		extensions: [ '.webpack.js', '.web.js', '.js' ],
 	},
 
-	module: {
-		loaders: [
-			{
-				test: /\.js$/,
-				loader: 'babel',
-				query: {
-					presets: [
-						require.resolve( 'babel-preset-es2015' ),
-					]
-				}
-			},
-		],
-	},
+	module: {},
 
 	plugins: [
-		new CKEditorWebpackPlugin(),
+		new CKEditorWebpackPlugin( {
+			useMainRepoModulesFirstly: true,
+		} ),
 	]
 };
