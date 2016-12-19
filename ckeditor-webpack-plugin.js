@@ -7,16 +7,16 @@
 
 'use strict';
 
-function CKEditorWebpackPlugin( options ) {
-	this.options = options || {};
-	this.useMainRepoModulesFirstly = !!options.useMainRepoModulesFirstly;
-}
-
 const path = require( 'path' );
 const fs = require( 'fs' );
 
+function CKEditorWebpackPlugin( options ) {
+	this.options = options || {};
+	this.useMainRepoModulesFirst = !!options.useMainRepoModulesFirst;
+}
+
 CKEditorWebpackPlugin.prototype.apply = function( compiler ) {
-	if ( this.useMainRepoModulesFirstly ) {
+	if ( this.useMainRepoModulesFirst ) {
 		compiler.resolvers.normal.plugin( 'resolve', this.maybeFixPath.bind( this ) );
 	}
 };
