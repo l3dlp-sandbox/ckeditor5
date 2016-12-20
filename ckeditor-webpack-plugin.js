@@ -21,6 +21,12 @@ CKEditorWebpackPlugin.prototype.apply = function( compiler ) {
 	}
 };
 
+/**
+ * @param {Object} obj
+ * @param {String} obj.path
+ * @param {String} obj.request
+ * @param {Function} done Callback.
+ */
 CKEditorWebpackPlugin.prototype.maybeFixPath = function( obj, done ) {
 	if ( obj.path.includes( 'node_modules' ) && obj.path.includes( 'ckeditor5-' ) ) {
 		const fixedPath = path.join( process.cwd(), 'node_modules' );

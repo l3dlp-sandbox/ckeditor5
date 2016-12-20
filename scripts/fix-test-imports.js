@@ -8,10 +8,6 @@ const testDir = path.join( process.cwd(), 'tests' );
 const testPath = path.join( testDir , '**', '*.js' );
 
 for ( const filePath of glob.sync( testPath ) ) {
-	if ( filePath.includes( '.fixed' ) ) {
-		fs.unlinkSync( filePath );
-		continue;
-	}
 	const fileContent = fs.readFileSync( filePath, 'utf-8' )
 		// import { someClass } from 'some-module'
 		.replace( /import\s*\{[^\}]+}\s*from\s*'([^']+)'/g,  fixImport )
@@ -25,7 +21,7 @@ for ( const filePath of glob.sync( testPath ) ) {
 		// import * as someModule from 'some-module'
 		.replace( /import\s*\*\s*as\s*[\w]+\s*from\s*'([^']+)'/g, fixImport );
 
-	fs.writeFileSync( filePath + '.fixed.js', fileContent , 'utf-8' );
+	fs.writeFileSync( filePath, fileContent , 'utf-8' );
 }
 
 function fixImport( wholeImport , path ) {
