@@ -27,23 +27,23 @@ class CKEditorWebpackPlugin {
 }
 
 /**
- * @param {String} path
+ * @param {String} currentPath
  * @param {String} request
- * @param {Function} done Callback.
+ * @returns {String}
  */
-function maybeFixPath( _path, request ) {
-	if ( _path.includes( 'node_modules' ) && _path.includes( 'ckeditor5-' ) ) {
+function maybeFixPath( currentPath, request ) {
+	if ( currentPath.includes( 'node_modules' ) && currentPath.includes( 'ckeditor5-' ) ) {
 		const fixedPath = path.join( process.cwd(), 'node_modules' );
 		const pathToFile = path.join( fixedPath, request );
 
 		try {
 			// Arguments of next calls of maybeFixPath should change so this be checked sync way.
 			fs.statSync( pathToFile );
-			_path = fixedPath;
+			currentPath = fixedPath;
 		} catch ( err ) {}
 	}
 
-	return _path;
+	return currentPath;
 }
 
 module.exports = CKEditorWebpackPlugin;
