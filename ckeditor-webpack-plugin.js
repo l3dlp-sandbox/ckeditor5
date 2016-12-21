@@ -10,35 +10,40 @@
 const path = require( 'path' );
 const fs = require( 'fs' );
 
-function CKEditorWebpackPlugin( options ) {
-	this.options = options || {};
-	this.useMainRepoModulesFirst = !!options.useMainRepoModulesFirst;
+class CKEditorWebpackPlugin {
+	constructor( options ) {
+		this.options = options || {};
+		this.useMainRepoModulesFirst = !!options.useMainRepoModulesFirst;
+	}
+
+	apply( compiler ) {
+		if ( this.useMainRepoModulesFirst ) {
+			compiler.resolvers.normal.plugin( 'resolve', ( obj, done ) => {
+				obj.path = maybeFixPath( obj.path, obj.request );
+				done();
+			} );
+		}
+	}
 }
 
-CKEditorWebpackPlugin.prototype.apply = function( compiler ) {
-	if ( this.useMainRepoModulesFirst ) {
-		compiler.resolvers.normal.plugin( 'resolve', this.maybeFixPath.bind( this ) );
-	}
-};
-
 /**
- * @param {Object} obj
- * @param {String} obj.path
- * @param {String} obj.request
+ * @param {String} path
+ * @param {String} request
  * @param {Function} done Callback.
  */
-CKEditorWebpackPlugin.prototype.maybeFixPath = function( obj, done ) {
-	if ( obj.path.includes( 'node_modules' ) && obj.path.includes( 'ckeditor5-' ) ) {
+function maybeFixPath( _path, request ) {
+	if ( _path.includes( 'node_modules' ) && _path.includes( 'ckeditor5-' ) ) {
 		const fixedPath = path.join( process.cwd(), 'node_modules' );
-		const pathToFile = path.join( fixedPath, obj.request );
+		const pathToFile = path.join( fixedPath, request );
 
 		try {
 			// Arguments of next calls of maybeFixPath should change so this be checked sync way.
 			fs.statSync( pathToFile );
-			obj.path = fixedPath;
+			_path = fixedPath;
 		} catch ( err ) {}
 	}
-	done();
-};
+
+	return _path;
+}
 
 module.exports = CKEditorWebpackPlugin;
