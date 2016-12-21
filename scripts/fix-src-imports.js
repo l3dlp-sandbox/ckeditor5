@@ -12,17 +12,7 @@ for ( const filePath of glob.sync( srcPath ) ) {
 	const fix = ( wholeImport, pathStart ) => fixImport( wholeImport, pathStart, fileDepth );
 
 	const fileContent = fs.readFileSync( filePath, 'utf-8' )
-		// import { someClass } from 'some-module'
-		.replace( /import\s*\{[^\}]+}\s*from\s*'((\.\.\/)+[\w-]+)\/[^']+'/g,  fix )
-
-		// import defaultExport from 'some-module'
-		.replace( /import\s*[\w]+\s*from\s*'((\.\.\/)+[\w-]+)\/[^']+'/g, fix )
-
-		// import 'some-module'
-		.replace( /import\s*'((\.\.\/)+[\w-]+)\/[^']+'/g, fix )
-
-		// import * as someModule from 'some-module'
-		.replace( /import\s*\*\s*as\s*[\w]+\s*from\s*'((\.\.\/)+[\w-]+)\/[^']+'/g, fix );
+		.replace( /\nimport[^']+?'((\.\.\/)+[\w-]+)\/[^']+?'/gm, fix );
 
 	fs.writeFileSync( filePath, fileContent , 'utf-8' );
 }

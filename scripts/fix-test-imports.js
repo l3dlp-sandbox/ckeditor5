@@ -9,17 +9,7 @@ const testPath = path.join( testDir , '**', '*.js' );
 
 for ( const filePath of glob.sync( testPath ) ) {
 	const fileContent = fs.readFileSync( filePath, 'utf-8' )
-		// import { someClass } from 'some-module'
-		.replace( /import\s*\{[^\}]+}\s*from\s*'([^']+)'/g,  fixImport )
-
-		// import defaultExport from 'some-module'
-		.replace( /import\s*[\w]+\s*from\s*'([^']+)'/g, fixImport )
-
-		// import 'some-module'
-		.replace( /import\s*'([^']+)'/g, fixImport )
-
-		// import * as someModule from 'some-module'
-		.replace( /import\s*\*\s*as\s*[\w]+\s*from\s*'([^']+)'/g, fixImport );
+		.replace( /\nimport[^']+?'([^']+?)'/gm, fixImport );
 
 	fs.writeFileSync( filePath, fileContent , 'utf-8' );
 }
