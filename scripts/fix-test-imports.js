@@ -25,6 +25,13 @@ for ( const filePath of glob.sync( testPath ) ) {
 }
 
 function fixImport( wholeImport , path ) {
+	let fixedImport = fixCkeditorPaths( wholeImport, path );
+	fixedImport = fixTestPaths( fixedImport, path );
+
+	return fixedImport;
+}
+
+function fixCkeditorPaths( wholeImport, path ) {
 	if ( path.indexOf( 'ckeditor5/' ) !== 0 ) {
 		return wholeImport;
 	}
@@ -35,6 +42,21 @@ function fixImport( wholeImport , path ) {
 	return (
 		wholeImport.slice( 0, index ) +
 		'ckeditor5-' + pathChunks[1] + '/src/' + pathChunks.slice( 2 ).join( '/' ) +
+		wholeImport.slice( path.length + index )
+	);
+}
+
+function fixTestPaths( wholeImport, path ) {
+	if ( path.indexOf( 'tests/' ) !== 0 ) {
+		return wholeImport;
+	}
+
+	const index = wholeImport.indexOf( path );
+	const pathChunks = path.split( '/' );
+
+	return (
+		wholeImport.slice( 0, index ) +
+		'ckeditor5-' + pathChunks[1] + '/tests/' + pathChunks.slice( 2 ).join( '/' ) +
 		wholeImport.slice( path.length + index )
 	);
 }
