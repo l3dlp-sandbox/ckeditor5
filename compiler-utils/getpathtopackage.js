@@ -15,9 +15,7 @@ const fs = require( 'fs' );
 module.exports = function getPathToPackage( name ) {
 	const pathToPackage = path.join( __dirname, '..', '..', 'ckeditor5-' + name );
 
-	try {
-		fs.statSync( pathToPackage );
-	} catch ( err ) {
+	if ( !fs.existsSync( pathToPackage ) ) {
 		throw new Error( `Missing package: ckeditor5-${ name } in ${ path.join( __dirname, '..', '..' ) }.` );
 	}
 
