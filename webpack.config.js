@@ -15,23 +15,16 @@ module.exports = {
 	entry: './webpack-entry-point',
 
 	output: {
-		path: path.resolve( __dirname, 'build/dist' ),
+		path: path.join( 'build', 'dist' ),
 		filename: 'ckeditor.js',
 	},
 
-	devtool: 'source-map',
-
-	resolve: {
-		extensions: [ '.webpack.js', '.web.js', '.js' ],
-	},
-
-	module: {
-
-	},
+	devtool: 'cheap-source-map',
 
 	plugins: [
 		new CKEditorWebpackPlugin( {
-			useMainRepoModulesFirst: true,
+			useMainPackageModules: true,
+			mainPackagePath: process.cwd()
 		} ),
 	],
 };
