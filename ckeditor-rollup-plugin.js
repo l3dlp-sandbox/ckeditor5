@@ -7,13 +7,18 @@
 
 'use strict';
 
-const resolvePathInContext = require( './compiler-utils/resolvepathincontext' );
+const resolveImportPathInContext = require( './compiler-utils/resolveimportpathincontext' );
+const path = require( 'path' );
 
 function ckeditorRollupPlugin( options ) {
 	return {
 		resolveId( importPath, requesterPath ) {
 			if ( options.useMainPackageModules ) {
-				return resolvePathInContext( requesterPath, importPath, options.mainPackagePath );
+				const resolvedPath = resolveImportPathInContext( requesterPath, importPath, options.mainPackagePath );
+
+				if ( resolvedPath ) {
+					return path.join( resolvedPath.packagePath, resolvedPath.filePath );
+				}
 			}
 		}
 	};
