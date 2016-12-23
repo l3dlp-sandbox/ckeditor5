@@ -19,6 +19,13 @@ module.exports = {
 		filename: 'ckeditor.js',
 	},
 
+	// resolve: {
+	// 	modules: [
+	// 		path.resolve( __dirname, 'node_modules' ),
+	// 		'node_modules'
+	// 	]
+	// },
+
 	devtool: 'cheap-source-map',
 
 	plugins: [
