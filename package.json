@@ -34,13 +34,18 @@
     "@ckeditor/ckeditor5-dev-env": "^1.0.0",
     "@ckeditor/ckeditor5-dev-lint": "^1.0.1",
     "@ckeditor/ckeditor5-dev-tests": "^3.1.0",
+    "css-loader": "^0.26.1",
     "gulp": "^3.9.0",
     "guppy-pre-commit": "^0.4.0",
+    "node-sass": "^4.1.1",
     "raw-loader": "^0.5.1",
     "rollup": "^0.38.0",
     "rollup-plugin-node-resolve": "^2.0.0",
+    "rollup-plugin-sass": "^0.4.8",
     "rollup-plugin-string": "^2.0.2",
     "run-sequence": "^1.1.5",
+    "sass-loader": "^4.1.1",
+    "style-loader": "^0.13.1",
     "webpack": "^2.1.0-beta.28"
   },
   "engines": {
