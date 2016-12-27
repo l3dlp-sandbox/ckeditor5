@@ -8,6 +8,7 @@
 const path = require( 'path' );
 const ckeditorRollupPlugin = require( './ckeditor-rollup-plugin' );
 const nodeResolve = require( 'rollup-plugin-node-resolve' );
+const stringRollupPlugin = require( 'rollup-plugin-string' );
 
 export default {
 	entry: './webpack-entry-point.js',
@@ -20,6 +21,11 @@ export default {
 			useMainPackageModules: true,
 			mainPackagePath: process.cwd()
 		} ),
-		nodeResolve()
+		nodeResolve(),
+
+		// TODO is it possible to include that in the CKEditor plugin?
+		stringRollupPlugin( {
+			include: '**/ckeditor5-*/theme/icons/*.svg'
+		} )
 	]
 };

@@ -19,6 +19,19 @@ module.exports = {
 		filename: 'ckeditor.js',
 	},
 
+	// TODO is it possible to include that in the CKEditor plugin?
+	module: {
+		rules: [
+			{
+				// test: **/ckeditor5-*/theme/icons/*.svg
+				test: /ckeditor5-[^/]+\/theme\/icons\/[^/]+\.svg$/,
+				use: [
+					'raw-loader'
+				]
+			}
+		]
+	},
+
 	// resolve: {
 	// 	modules: [
 	// 		path.resolve( __dirname, 'node_modules' ),
