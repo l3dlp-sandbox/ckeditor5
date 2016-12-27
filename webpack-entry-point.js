@@ -10,10 +10,12 @@ import Bold from 'ckeditor5-basic-styles/src/bold';
 import Italic from 'ckeditor5-basic-styles/src/italic';
 import List from 'ckeditor5-list/src/list';
 import Link from 'ckeditor5-link/src/link';
+import Autoformat from 'ckeditor5-autoformat/src/autoformat';
+import Heading from 'ckeditor5-heading/src/heading';
 
 ClassicEditor.create( document.querySelector( '#editor' ), {
-	plugins: [ Enter, Typing, Paragraph, Undo, Bold, Italic, List, Link ],
-	toolbar: [ 'bold', 'italic', 'undo', 'redo', 'numberedList', 'bulletedList', 'link', 'unlink' ]
+	plugins: [ Enter, Typing, Paragraph, Undo, Bold, Italic, List, Link, Autoformat, Heading ],
+	toolbar: [ 'headings', 'bold', 'italic', 'undo', 'redo', 'numberedList', 'bulletedList', 'link', 'unlink' ]
 } ).then( editor => {
 	window.editor = editor;
 } ).catch( err => {
