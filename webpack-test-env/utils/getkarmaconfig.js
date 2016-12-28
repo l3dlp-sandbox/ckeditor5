@@ -15,6 +15,8 @@ const reporters = [
 	'dots',
 ];
 
+const coverageDir = path.join( process.cwd(), 'build', '.coverage' );
+
 /**
  * @param {Object} options
  * @returns {Object}
@@ -41,8 +43,6 @@ module.exports = function getKarmaConfig( options ) {
 			preprocessorMap[file].push( 'sourcemap' );
 		}
 	}
-
-	console.log( path.resolve( process.cwd(), '..' ) );
 
 	const karmaConfig = {
 		// Base path that will be used to resolve all patterns (eg. files, exclude).
@@ -126,6 +126,28 @@ module.exports = function getKarmaConfig( options ) {
 	if ( options.verbose ) {
 		karmaConfig.webpackMiddleware.noInfo = false;
 		delete karmaConfig.webpackMiddleware.stats;
+	}
+
+	if ( options.coverage ) {
+		karmaConfig.reporters.push( 'coverage' );
+
+		karmaConfig.coverageReporter = {
+			reporters: [
+				{
+					type: 'text-summary'
+				},
+				{
+					dir: coverageDir,
+					type: 'html'
+				},
+				// Generates "./coverage/lcov.info". Used by CodeClimate.
+				{
+					type: 'lcovonly',
+					subdir: '.',
+					dir: coverageDir
+				}
+			]
+		};
 	}
 
 	return karmaConfig;

@@ -7,29 +7,51 @@
 
 'use strict';
 
+const path = require( 'path' );
 const CKEditorWebpackPlugin = require( '../../ckeditor-webpack-plugin' );
+const NotifierPlugin = require( './notifier-plugin' );
 
 /**
  * @param {Object} options
  * @returns {Object}
  */
-module.exports = function getWebpackConfig( options ) {
-	const webpackConfig = {
-		resolve: {
-			root: options.sourcePath
-		},
-
+module.exports = function createWebpackConfig( options ) {
+	const config = {
 		plugins: [
 			new CKEditorWebpackPlugin( {
 				useMainPackageModules: true,
 				mainPackagePath: process.cwd(),
 			} ),
+			new NotifierPlugin(),
 		],
+		module: {
+			rules: []
+		}
 	};
 
 	if ( options.sourceMap ) {
-		webpackConfig.devtool = 'cheap-source-map';
+		config.devtool = 'cheap-source-map';
 	}
 
-	return webpackConfig;
+	if ( options.coverage ) {
+		const excludePackageRegExps = options.packages
+			.filter( dirname => {
+				return !options.files.some( file => dirname.endsWith( file ) );
+			} );
+
+		config.module.rules.push( {
+			test: /\.js$/,
+			loader: 'istanbul-instrumenter-loader',
+			enforce: 'pre',
+			exclude: [
+				...excludePackageRegExps,
+				new RegExp( `${ path.sep }(node_modules|tests|theme|lib)${ path.sep }` ),
+			],
+			query: {
+				esModules: true
+			}
+		} );
+	}
+
+	return config;
 };
