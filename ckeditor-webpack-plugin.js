@@ -20,15 +20,17 @@ class CKEditorWebpackPlugin {
 			return;
 		}
 
-		compiler.resolvers.normal.plugin( 'before-resolve', ( obj, done ) => {
-			const resolvedPath = resolveImportPathInContext( obj.context.issuer, obj.request, this.options.mainPackagePath );
+		compiler.plugin( 'after-resolvers', ( compiler ) => {
+			compiler.resolvers.normal.plugin( 'before-resolve', ( obj, done ) => {
+				const resolvedPath = resolveImportPathInContext( obj.context.issuer, obj.request, this.options.mainPackagePath );
 
-			if ( resolvedPath ) {
-				obj.path = resolvedPath.modulesPath;
-				obj.request = '.' + path.sep + path.join( resolvedPath.packageName, resolvedPath.filePath );
-			}
+				if ( resolvedPath ) {
+					obj.path = resolvedPath.modulesPath;
+					obj.request = '.' + path.sep + path.join( resolvedPath.packageName, resolvedPath.filePath );
+				}
 
-			done();
+				done();
+			} );
 		} );
 	}
 }
