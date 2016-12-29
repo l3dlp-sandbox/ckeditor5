@@ -25,7 +25,18 @@ module.exports = function createWebpackConfig( options ) {
 			new NotifierPlugin(),
 		],
 		module: {
-			rules: []
+			rules: [
+				{
+					// test: **/ckeditor5-*/theme/icons/*.svg
+					test: /ckeditor5-[^/]+\/theme\/icons\/[^/]+\.svg$/,
+					use: [ 'raw-loader' ]
+				},
+				{
+					// test: **/ckeditor5-*/theme/**/*.scss
+					test: /\.scss$/,
+					use: [ 'style-loader', 'css-loader', 'sass-loader' ]
+				}
+			]
 		}
 	};
 

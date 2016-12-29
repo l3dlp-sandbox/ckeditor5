@@ -26,7 +26,7 @@ const workspaceRoot = path.join( process.cwd(), '..' );
  */
 function fixPathToGlobOrPackage( globOrPackage ) {
 	if ( globOrPackage === '**/*.js' ) {
-		return path.join( workspaceRoot, 'ckeditor5-*', 'tests', '**', '*.js' );
+		return path.join( workspaceRoot, 'ckeditor5-!(dev)*', 'tests', '**', '*.js' );
 	}
 
 	if ( !globOrPackage.includes( '/' ) ) {
