@@ -164,17 +164,17 @@ gulp.task( 'docs:build', () => {
 // Tests. ---------------------------------------------------------------------
 
 gulp.task( 'test', () => {
-	return require( './webpack-test-env' )
+	return require( '@ckeditor/ckeditor5-dev-tests' )
 		.runAutomatedTests( getTestOptions() );
 } );
 
 gulp.task( 'test:manual', () => {
-	return require( './webpack-test-env' )
+	return require( '@ckeditor/ckeditor5-dev-tests' )
 		.runManualTests( getTestOptions() );
 } );
 
 function getTestOptions() {
-	const options = require( './webpack-test-env' ).parseArguments( process.argv.slice( 2 ) );
+	const options = require( '@ckeditor/ckeditor5-dev-tests' ).parseArguments( process.argv.slice( 2 ) );
 
 	return Object.assign( {}, options, {
 		packages: getCKEditor5PackagesPaths(),
