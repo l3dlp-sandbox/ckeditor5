@@ -41,8 +41,14 @@ module.exports = function createWebpackConfig( options ) {
 
 		config.module.rules.push( {
 			test: /\.js$/,
+			loader: 'babel-loader',
+			query: {
+				cacheDirectory: true,
+				plugins: [ require( 'babel-plugin-transform-es2015-modules-commonjs' ) ]
+			},
+		}, {
+			test: /\.js$/,
 			loader: 'istanbul-instrumenter-loader',
-			enforce: 'pre',
 			exclude: [
 				...excludePackageRegExps,
 				new RegExp( `${ path.sep }(node_modules|tests|theme|lib)${ path.sep }` ),

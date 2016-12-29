@@ -23,6 +23,8 @@ const reader = new commonmark.Parser();
 const writer = new commonmark.HtmlRenderer();
 
 /**
+ * Main function that runs automated tests.
+ *
  * @returns {Promise}
  */
 module.exports = function runAutomatedTests() {

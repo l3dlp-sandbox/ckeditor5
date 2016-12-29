@@ -16,6 +16,25 @@ const reporters = [
 ];
 
 const coverageDir = path.join( process.cwd(), 'build', '.coverage' );
+const workspaceRoot = path.join( process.cwd(), '..' );
+
+/**
+ * Gets shortened path to file or package and returns fixed path.
+ *
+ * @param {String} fileOrPackage
+ * @returns {String}
+ */
+function fixPathToGlobOrPackage( globOrPackage ) {
+	if ( globOrPackage === '**/*.js' ) {
+		return path.join( workspaceRoot, 'ckeditor5-*', 'tests', '**', '*.js' );
+	}
+
+	if ( !globOrPackage.includes( '/' ) ) {
+		return path.join( getPathToPackage( workspaceRoot, globOrPackage ), 'tests', '**', '*.js' );
+	}
+
+	return path.join( workspaceRoot, 'ckeditor5-' + globOrPackage );
+}
 
 /**
  * @param {Object} options
@@ -30,9 +49,7 @@ module.exports = function getKarmaConfig( options ) {
 		throw new Error( `Given Mocha reporter is not supported. Available reporters: ${ reporters.join( ', ' ) }.` );
 	}
 
-	const files = options.files.map( pckg => {
-		return path.join( getPathToPackage( pckg ), 'tests', '**', '*.js' );
-	} );
+	const files = options.files.map( globOrPackage => fixPathToGlobOrPackage( globOrPackage ) );
 
 	const preprocessorMap = {};
 
@@ -61,8 +78,6 @@ module.exports = function getKarmaConfig( options ) {
 
 			// And all manual tests.
 			path.join( '**', 'tests', '**', 'manual', '**', '*.js' ),
-
-			path.join( '**', 'node_modules', 'ckeditor-*', '**' ),
 		],
 
 		// Preprocess matching files before serving them to the browser.
