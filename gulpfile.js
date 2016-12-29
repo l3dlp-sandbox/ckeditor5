@@ -174,9 +174,5 @@ gulp.task( 'test:manual', () => {
 } );
 
 function getTestOptions() {
-	const options = require( '@ckeditor/ckeditor5-dev-tests' ).parseArguments( process.argv.slice( 2 ) );
-
-	return Object.assign( {}, options, {
-		packages: getCKEditor5PackagesPaths(),
-	} );
+	return require( '@ckeditor/ckeditor5-dev-tests' ).parseArguments( process.argv.slice( 2 ) );
 }
