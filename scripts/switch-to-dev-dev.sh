@@ -1,6 +1,11 @@
 #!/bin/sh
 set -e
 
+# If it doesn't exist the following lines won't work.
+if [ ! -d node_modules/@ckeditor ]; then
+  mkdir node_modules/@ckeditor
+fi
+
 echo "Linking ckeditor5-dev-env..."
 
 rm -rf node_modules/@ckeditor/ckeditor5-dev-env
