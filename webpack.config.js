@@ -6,7 +6,7 @@
 /* jshint browser: false, node: true, strict: true */
 
 const path = require( 'path' );
-const CKEditorWebpackPlugin = require( './ckeditor-webpack-plugin' );
+const CKEditorWebpackPlugin = require( './node_modules/@ckeditor/ckeditor5-dev-tests/ckeditor-webpack-plugin' );
 
 module.exports = {
 	context: __dirname,
@@ -46,8 +46,9 @@ module.exports = {
 
 	plugins: [
 		new CKEditorWebpackPlugin( {
-			useMainPackageModules: true,
-			mainPackagePath: process.cwd()
-		} ),
+			packages: {
+				'*': path.join( process.cwd(), 'node_modules' )
+			}
+		} )
 	],
 };
